@@ -1,0 +1,8 @@
+cluster.initial_master_nodes: master
+network.host: 0.0.0.0
+node:
+  master: false
+  data: false
+  ingest: true
+xpack.security.enabled: false
+xpack.monitoring.collection.enabled: false
