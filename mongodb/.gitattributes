@@ -1,0 +1,6 @@
+covid/full_grouped.csv filter=lfs diff=lfs merge=lfs -text
+covid/usa_county_wise.csv filter=lfs diff=lfs merge=lfs -text
+covid/worldometer_data.csv filter=lfs diff=lfs merge=lfs -text
+covid/country_wise_latest.csv filter=lfs diff=lfs merge=lfs -text
+covid/covid_19_clean_complete.csv filter=lfs diff=lfs merge=lfs -text
+covid/day_wise.csv filter=lfs diff=lfs merge=lfs -text
