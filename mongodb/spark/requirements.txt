@@ -1,0 +1,6 @@
+jupyterlab
+pandas
+pyarrow
+NumPy
+Py4j
+pyspark[sql]
