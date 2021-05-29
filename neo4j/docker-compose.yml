@@ -12,7 +12,8 @@ services:
       - ./import:/import
       - ./logs:/logs
       - ./plugins:/plugins
-    # environment: 
+    environment: 
+      - NEO4J_AUTH=none
       # Raise memory limits
       # - NEO4J_dbms_memory_pagecache_size=1G
       # - NEO4J_dbms.memory.heap.initial_size=1G
