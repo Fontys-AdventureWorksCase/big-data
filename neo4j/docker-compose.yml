@@ -7,14 +7,14 @@ services:
       - 7474:7474
       - 7687:7687
     volumes:
-      - ./conf:/conf
-      - ./data:/data
-      - ./import:/import
-      - ./logs:/logs
-      - ./plugins:/plugins
+      - ./volumes/conf:/conf
+      - ./volumes/data:/data
+      - ./volumes/import:/import
+      - ./volumes/logs:/logs
+      - ./volumes/plugins:/plugins
     environment: 
       - NEO4J_AUTH:warrior/hellyeah666
       # Raise memory limits
       - NEO4J_dbms_memory_pagecache_size:4G
-      - NEO4J_dbms.memory.heap.initial_size:4G
+      - NEO4J_dbms_memory_heap_initial_size:4G
       - NEO4J_dbms_memory_heap_max__size:4G
