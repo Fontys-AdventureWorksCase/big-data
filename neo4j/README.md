@@ -12,5 +12,5 @@ Or access a running dev example on esx.rdjsoft.nl:7474 (browser) and esx.rdjsoft
 
 ## Authentication
 
-Username: warrior
-Password: hellyeah666
+Username: neo4j
+Password: warriors
