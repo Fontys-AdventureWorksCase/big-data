@@ -77,3 +77,8 @@ NB: The neo4j community edition only allows access to 1 database. You need to se
 and then add the line `dbms.active_database=movies`
 
 ![image](https://user-images.githubusercontent.com/4932561/120121267-bd510b80-c1a2-11eb-8337-fc3aeb2d40ae.png)
+
+Make sure to restart the container afterwards
+`docker-compose down`
+`docker-compose up -d`
+
