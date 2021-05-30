@@ -1,6 +1,5 @@
-neo4j/volumes/
-neo4j/conf/
-neo4j/data/
-neo4j/import/
-neo4j/logs/
-neo4j/plugins/
+neo4j/volumes/conf/
+neo4j/volumes/data/
+neo4j/volumes/logs/
+neo4j/volumes/plugins/
+# neo4j/volumes/import/
