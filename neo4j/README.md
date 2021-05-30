@@ -40,7 +40,7 @@ There are files available for s1 throught s8, both nodes and edges.
 Type the following to view the data
 `match (n) return n limit 50`
 
-# Import csv using neo4j-admin tool
+## Import csv using neo4j-admin tool
 
 ```
 local:~/big-data/neo4j$           docker-compose exec neo4j bash
