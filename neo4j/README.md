@@ -15,6 +15,8 @@ Or access a running dev example on esx.rdjsoft.nl:7474 (browser) and esx.rdjsoft
 Username: neo4j
 Password: warriors
 
+NB: If the password is not accepted, try 'neo4j' as a password and when asked to change it type 'warriors'
+
 ## Import
 
 Access the neo4j browser, authenticate, and then type the following:
