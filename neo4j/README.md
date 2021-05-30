@@ -38,9 +38,7 @@ MERGE (source)-[:SEASON1 {weight: toInteger(row.Weight)}]-(target)
 There are files available for s1 throught s8, both nodes and edges.
 
 Type the following to view the data
-```
-match (n) return n limit 50
-```
+`match (n) return n limit 50`
 
 # Import csv using neo4j-admin tool
 
@@ -73,5 +71,9 @@ Peak memory usage: 1.004GiB
 ```
 
 NB: The neo4j community edition only allows access to 1 database. You need to set in the config file which database you want to use before you start the container.
+
+`local:~/big-data/neo4j$ nano volumes/conf/neo4j.conf`
+
+and then add the line `dbms.active_database=movies`
 
 ![image](https://user-images.githubusercontent.com/4932561/120121267-bd510b80-c1a2-11eb-8337-fc3aeb2d40ae.png)
