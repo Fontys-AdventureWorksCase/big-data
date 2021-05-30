@@ -33,3 +33,4 @@ MATCH (source:Character {id: row.Source})
 MATCH (target:Character {id: row.Target})
 MERGE (source)-[:SEASON1 {weight: toInteger(row.Weight)}]-(target)
 ```
+There are files available for s1 throught s8, both nodes and edges.
