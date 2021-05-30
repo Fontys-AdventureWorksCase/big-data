@@ -73,4 +73,4 @@ Peak memory usage: 1.004GiB
 ```
 
 NB: The neo4j community edition only allows access to 1 database. You need to set in the config file which database you want to use before you start the container.
-
+![image](https://user-images.githubusercontent.com/4932561/120121267-bd510b80-c1a2-11eb-8337-fc3aeb2d40ae.png)
