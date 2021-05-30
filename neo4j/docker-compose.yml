@@ -13,7 +13,7 @@ services:
       - ./volumes/logs:/logs
       - ./volumes/plugins:/plugins
     environment: 
-      - NEO4J_AUTH:warrior/hellyeah666
+      - NEO4J_AUTH:neo4j/warriors
       # Raise memory limits
       - NEO4J_dbms_memory_pagecache_size:4G
       - NEO4J_dbms_memory_heap_initial_size:4G
