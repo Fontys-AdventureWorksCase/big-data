@@ -4,7 +4,7 @@ services:
 
   mongo:
     image: mongo
-    restart: always
+    #restart: always
     environment:
       - MONGO_INITDB_DATABASE=example
       - MONGO_INITDB_ROOT_USERNAME=root
@@ -17,7 +17,7 @@ services:
 
   mongo-express:
     image: mongo-express
-    restart: always
+    #restart: always
     ports:
       - 8081:8081
     environment:
