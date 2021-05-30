@@ -17,7 +17,7 @@ Password: warriors
 
 NB: If the password is not accepted, try 'neo4j' as a password and when asked to change it type 'warriors'
 
-## Import
+## Import csv using the neo4j browser
 
 Access the neo4j browser, authenticate, and then type the following:
 
@@ -41,3 +41,36 @@ Type the following to view the data
 ```
 match (n) return n limit 50
 ```
+
+# Import csv using neo4j-admin tool
+
+```
+local:~/big-data/neo4j$           docker-compose exec neo4j bash
+neo4j-container:/var/lib/neo4j#   bin/neo4j-admin import --database=movies \
+                                  --nodes=/import/movies.csv \
+                                  --nodes=/import/actors.csv \
+                                  --relationships=/import/roles.csv
+```
+
+```
+Neo4j version: 4.2.7
+Importing the contents of these files into /data/databases/movies:
+Nodes:
+  /import/movies.csv
+  /import/actors.csv
+
+Relationships:
+  /import/roles.csv
+
+[…]
+
+IMPORT DONE in 682ms.
+Imported:
+  6 nodes
+  9 relationships
+  24 properties
+Peak memory usage: 1.004GiB
+```
+
+NB: The neo4j community edition only allows access to 1 database. You need to set in the config file which database you want to use before you start the container.
+
