@@ -1,0 +1,28 @@
+nohup: ignoring input
+2021-05-30 21:25:26.836+0000 INFO  Starting...
+2021-05-30 21:25:28.141+0000 INFO  ======== Neo4j 4.2.7 ========
+2021-05-30 21:25:33.292+0000 ERROR Failed to start Neo4j on dbms.connector.http.listen_address, a socket address. If missing port or hostname it is acquired from dbms.default_listen_address.
+java.lang.RuntimeException: Error starting Neo4j database server at /data/databases
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:207) ~[neo4j-4.2.7.jar:4.2.7]
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.build(DatabaseManagementServiceFactory.java:163) ~[neo4j-4.2.7.jar:4.2.7]
+	at org.neo4j.server.CommunityBootstrapper.createNeo(CommunityBootstrapper.java:36) ~[neo4j-4.2.7.jar:4.2.7]
+	at org.neo4j.server.NeoBootstrapper.start(NeoBootstrapper.java:134) [neo4j-4.2.7.jar:4.2.7]
+	at org.neo4j.server.NeoBootstrapper.start(NeoBootstrapper.java:90) [neo4j-4.2.7.jar:4.2.7]
+	at org.neo4j.server.CommunityEntryPoint.main(CommunityEntryPoint.java:35) [neo4j-4.2.7.jar:4.2.7]
+Caused by: org.neo4j.kernel.lifecycle.LifecycleException: Component 'org.neo4j.kernel.internal.locker.LockerLifecycleAdapter@29d37757' was successfully initialized, but failed to start. Please see the attached cause exception "Lock file has been locked by another process: /data/databases/store_lock. Please ensure no other process is using this database, and that the directory is writable (required even for read-only access)".
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:463) ~[neo4j-common-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.lifecycle.LifeSupport.start(LifeSupport.java:110) ~[neo4j-common-4.2.7.jar:4.2.7]
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:198) ~[neo4j-4.2.7.jar:4.2.7]
+	... 5 more
+Caused by: org.neo4j.kernel.internal.locker.FileLockException: Lock file has been locked by another process: /data/databases/store_lock. Please ensure no other process is using this database, and that the directory is writable (required even for read-only access)
+	at org.neo4j.kernel.internal.locker.Locker.storeLockException(Locker.java:175) ~[neo4j-kernel-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.internal.locker.Locker.checkLock(Locker.java:95) ~[neo4j-kernel-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.internal.locker.GlobalFileLocker.checkLock(GlobalFileLocker.java:58) ~[neo4j-kernel-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.internal.locker.GlobalLocker.checkLock(GlobalLocker.java:28) ~[neo4j-kernel-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.internal.locker.LockerLifecycleAdapter.start(LockerLifecycleAdapter.java:36) ~[neo4j-kernel-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:442) ~[neo4j-common-4.2.7.jar:4.2.7]
+	at org.neo4j.kernel.lifecycle.LifeSupport.start(LifeSupport.java:110) ~[neo4j-common-4.2.7.jar:4.2.7]
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:198) ~[neo4j-4.2.7.jar:4.2.7]
+	... 5 more
+2021-05-30 21:25:33.292+0000 INFO  Neo4j Server shutdown initiated by request
+2021-05-30 21:25:33.293+0000 INFO  Stopped.
