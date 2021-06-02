@@ -1,12 +1,13 @@
-# neo4j/volumes/conf/
-neo4j/volumes/data/
-# neo4j/volumes/logs/
-# neo4j/volumes/plugins/
-# neo4j/volumes/import/
+# neo4j/importing/volumes/conf/
+# neo4j/importing/volumes/plugins/
+# neo4j/importing/volumes/import/
+neo4j/importing/volumes/data/
+neo4j/importing/volumes/logs/
 
 # neo4j/neo4j-spark-jupyter/volumes/conf/
-neo4j/neo4j-spark-jupyter/volumes/data
-# neo4j/neo4j-spark-jupyter/volumes/logs
 # neo4j/neo4j-spark-jupyter/volumes/plugins
 # neo4j/neo4j-spark-jupyter/volumes/import
+neo4j/neo4j-spark-jupyter/volumes/data
+neo4j/neo4j-spark-jupyter/volumes/logs
+
 
