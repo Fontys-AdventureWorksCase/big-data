@@ -2,6 +2,6 @@
 neo4j/importing/volumes/data/
 neo4j/importing/volumes/logs/
 
-neo4j/neo4j-spark-jupyter/volumes/data
-neo4j/neo4j-spark-jupyter/volumes/logs
-neo4j/neo4j-spark-jupyter/volumes/import/anime
+neo4j/neo4j-spark-jupyter/volumes/data/
+neo4j/neo4j-spark-jupyter/volumes/logs/
+neo4j/neo4j-spark-jupyter/volumes/import/anime/
