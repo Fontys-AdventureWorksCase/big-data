@@ -43,15 +43,22 @@ Type the following to view the data
 
 ## Import csv using neo4j-admin tool
 
+NB: Importing like this will only work with an unused database. Remove all files traces from a previous 'movies' database with this command:
+
 ``` bash
+local:~/big-data/neo4j$ sudo rm -rfv volumes/data/*/movies
+```
+
+Then start up container, and start the import.
+
+``` bash
+local:~/big-data/neo4j$           docker-compose up -d
 local:~/big-data/neo4j$           docker-compose exec neo4j bash
 neo4j-container:/var/lib/neo4j#   bin/neo4j-admin import --database=movies \
                                   --nodes=/import/movies.csv \
                                   --nodes=/import/actors.csv \
                                   --relationships=/import/roles.csv
 ```
-
-NB: This will only work with an unused database!
 
 ``` bash
 Neo4j version: 4.2.7
@@ -73,7 +80,7 @@ Imported:
 Peak memory usage: 1.004GiB
 ```
 
-NB: The neo4j community edition only allows access to 1 database. You need to set in the config file which database you want to use before you start the container.
+NB: The neo4j community edition only allows access to 1 database. You need to set in the config file which database you want to use.
 
 `local:~/big-data/neo4j$ nano volumes/conf/neo4j.conf`
 
