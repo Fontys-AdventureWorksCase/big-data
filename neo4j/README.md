@@ -21,7 +21,7 @@ NB: If the password is not accepted, try 'neo4j' as a password and when asked to
 
 Access the neo4j browser, authenticate, and then type the following:
 
-```
+``` cypher
 CREATE CONSTRAINT UniqueCharacterId ON (c:Character) ASSERT c.id IS UNIQUE
 
 :auto USING PERIODIC COMMIT 500
@@ -35,6 +35,7 @@ MATCH (source:Character {id: row.Source})
 MATCH (target:Character {id: row.Target})
 MERGE (source)-[:SEASON1 {weight: toInteger(row.Weight)}]-(target)
 ```
+
 There are files available for s1 throught s8, both nodes and edges.
 
 Type the following to view the data
@@ -42,7 +43,7 @@ Type the following to view the data
 
 ## Import csv using neo4j-admin tool
 
-```
+``` bash
 local:~/big-data/neo4j$           docker-compose exec neo4j bash
 neo4j-container:/var/lib/neo4j#   bin/neo4j-admin import --database=movies \
                                   --nodes=/import/movies.csv \
@@ -50,7 +51,9 @@ neo4j-container:/var/lib/neo4j#   bin/neo4j-admin import --database=movies \
                                   --relationships=/import/roles.csv
 ```
 
-```
+NB: This will only work with an unused database!
+
+``` bash
 Neo4j version: 4.2.7
 Importing the contents of these files into /data/databases/movies:
 Nodes:
@@ -81,4 +84,3 @@ and then add the line `dbms.active_database=movies`
 Make sure to restart the container afterwards
 `docker-compose down`
 `docker-compose up -d`
-
