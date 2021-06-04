@@ -14,11 +14,10 @@ services:
 
     master:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-        restart: always
-        environment: 
+        environment:
             - cluster.name=Fontys
             - node.name=master
-            - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
+            - ES_JAVA_OPTS=-Xms5120m -Xmx5120m
             - discovery.seed_hosts=data,data-replica,client
         ports:
             - 9200:9200
@@ -30,11 +29,10 @@ services:
 
     data:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-        restart: always
-        environment: 
+        environment:
             - cluster.name=Fontys
             - node.name=data
-            - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
+            - ES_JAVA_OPTS=-Xms5120m -Xmx5120m
             - discovery.seed_hosts=master,data-replica,client
         ports:
             - 9201:9200
@@ -46,11 +44,10 @@ services:
 
     data-replica:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-        restart: always
-        environment: 
+        environment:
             - cluster.name=Fontys
             - node.name=data-replica
-            - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
+            - ES_JAVA_OPTS=-Xms5120m -Xmx5120m
             - discovery.seed_hosts=master,client,data
         ports:
             - 9202:9200
@@ -62,11 +59,10 @@ services:
 
     client:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-        restart: always
-        environment: 
+        environment:
             - cluster.name=Fontys
             - node.name=client
-            - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
+            - ES_JAVA_OPTS=-Xms5120m -Xmx5120m
             - discovery.seed_hosts=master,data,data-replica
         ports:
             - 9203:9200
