@@ -17,6 +17,7 @@ services:
       - 8888:8888
     volumes:
       - shared-workspace:/opt/workspace
+      - ./volumes/plugins:/plugins 
     networks:
       - localnet
 
@@ -77,9 +78,9 @@ services:
     environment:
       - NEO4J_AUTH:neo4j/warriors
       # Raise memory limits
-      - NEO4J_dbms_memory_pagecache_size:4G
-      - NEO4J_dbms_memory_heap_initial_size:4G
-      - NEO4J_dbms_memory_heap_max__size:4G
+    #  - NEO4J_dbms_memory_pagecache_size:4G
+    #  - NEO4J_dbms_memory_heap_initial_size:4G
+    #  - NEO4J_dbms_memory_heap_max__size:4G
 #      - NEO4JLABS_PLUGINS='["apoc", "graph-data-science"]'
 #      - apoc_import_file_enabled:true
 
