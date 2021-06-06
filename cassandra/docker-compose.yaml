@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+
+    web:
+        image: ipushc/cassandra-web
+        networks:
+            - backend
+        ports:
+            - 9000:9000
+        environment: 
+            - HOST_PORT=:9000
+            - CASSANDRA_HOST=backend-1
+            - CASSANDRA_PORT=9042
+            - CASSANDRA_USERNAME=
+            - CASSANDRA_PASSWORD=
+
+    backend-1:
+        image: cassandra:4.0
+        networks:
+            - backend
+        ports:
+            - 9044:9042
+        mem_limit: 2G
+        environment:
+            - HEAP_NEWSIZE=128M
+            - MAX_HEAP_SIZE=1024M
+            - CASSANDRA_SEEDS=backend-1
+            - CASSANDRA_CLUSTER_NAME=c4-4.0-cluster
+
+    backend-2:
+        image: cassandra:4.0
+        networks:
+            - backend
+        mem_limit: 2G
+        depends_on:
+            - backend-1
+        environment:
+            - HEAP_NEWSIZE=128M
+            - MAX_HEAP_SIZE=1024M
+            - CASSANDRA_SEEDS=backend-1
+            - CASSANDRA_CLUSTER_NAME=c4-4.0-cluster
+
+    backend-3:
+        image: cassandra:4.0
+        networks:
+            - backend
+        mem_limit: 2G
+        depends_on:
+            - backend-2
+        environment:
+            - HEAP_NEWSIZE=128M
+            - MAX_HEAP_SIZE=1024M
+            - CASSANDRA_SEEDS=backend-1
+            - CASSANDRA_CLUSTER_NAME=c4-4.0-cluster
+
+    stargate:
+        image: stargateio/stargate-4_0:v1.0.26
+        depends_on: 
+            - backend-1
+        networks:
+            - backend
+        ports:
+            - 9045:9042
+            - 8080:8080
+            - 8081:8081
+            - 8082:8082
+            - 8084:8084
+        mem_limit: 2G
+        environment:
+            - JAVA_OPTS="-Xmx2G"
+            - CLUSTER_NAME=c4-4.0-cluster
+            - CLUSTER_VERSION=4.0s
+            - SEED=backend-1
+            - RACK_NAME=rack1
+            - DATACENTER_NAME=dc1
+            - ENABLE_AUTH=true
+
+networks:
+    backend:
