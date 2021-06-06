@@ -1,0 +1,806 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n\n# Writing with Neo4j Connector for Apache Spark\n\nDocs [here](https://neo4j.com/developer/spark/writing/).",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 09:58:38.117",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eWriting with Neo4j Connector for Apache Spark\u003c/h1\u003e\n\u003cp\u003eDocs \u003ca href\u003d\"http://5.9.211.195:8000/neo4j-spark-docs/1.0.0/writing.html\"\u003ehere\u003c/a\u003e.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1601988521241_388338299",
+      "id": "paragraph_1601988521241_388338299",
+      "dateCreated": "2020-10-06 12:48:41.241",
+      "dateStarted": "2020-10-06 12:52:33.138",
+      "dateFinished": "2020-10-06 12:52:33.150",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Writing nodes",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 09:58:29.881",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eWriting nodes\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1602074624606_610586440",
+      "id": "paragraph_1602074624606_610586440",
+      "dateCreated": "2020-10-07 12:43:44.607",
+      "dateStarted": "2020-10-07 12:44:08.030",
+      "dateFinished": "2020-10-07 12:44:08.308",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val bandDf \u003d Seq(\n      (1, \"Alex Lifeson\"),\n      (2, \"Neil Peart\"),\n      (3, \"Geddy Lee\")\n    ).toDF(\"id\", \"name\")\n    \n    \nbandDf.write\n    .format(\"org.neo4j.spark.DataSource\")\n    .option(\"url\", \"bolt://neo4j:7687\")\n    .option(\"authentication.type\", \"basic\")\n    .option(\"authentication.basic.username\", \"neo4j\")\n    .option(\"authentication.basic.password\", \"zeppelin\")\n    .option(\"labels\", \":Person:Musician\")\n    .save\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:01:07.376",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mbandDf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [id: int, name: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1602074651022_291658173",
+      "id": "paragraph_1602074651022_291658173",
+      "dateCreated": "2020-10-07 12:44:11.022",
+      "dateStarted": "2021-02-23 10:01:07.410",
+      "dateFinished": "2021-02-23 10:01:11.681",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%neo4j\n\nMATCH (n:Person:Musician) RETURN n",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:01:59.349",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "id": "string",
+                      "label": "string",
+                      "name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/undefined"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "NETWORK",
+            "data": "{\"nodes\":[{\"id\":344,\"data\":{\"name\":\"Alex Lifeson\",\"id\":1},\"label\":\"Person\"},{\"id\":345,\"data\":{\"name\":\"Geddy Lee\",\"id\":3},\"label\":\"Person\"},{\"id\":346,\"data\":{\"name\":\"Neil Peart\",\"id\":2},\"label\":\"Person\"}],\"edges\":[],\"labels\":{\"Person\":\"#BF45B4\",\"Movie\":\"#AAFFB4\",\"Musician\":\"#2176A5\"},\"types\":[\"ACTED_IN\",\"REVIEWED\",\"PRODUCED\",\"WROTE\",\"FOLLOWS\",\"DIRECTED\"],\"directed\":true}"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1602074982164_1428084560",
+      "id": "paragraph_1602074982164_1428084560",
+      "dateCreated": "2020-10-07 12:49:42.164",
+      "dateStarted": "2021-02-23 10:01:17.844",
+      "dateFinished": "2021-02-23 10:01:59.224",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n\n### Merging\n\nWe are now going to write using the MERGE keyword by setting the write mode to \"Overwrite\".",
+      "user": "anonymous",
+      "dateUpdated": "2020-10-07 12:55:20.533",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/text",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eMerging\u003c/h3\u003e\n\u003cp\u003eWe are now going to write using the MERGE keyword by setting the write mode to \u0026ldquo;Overwrite\u0026rdquo;.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1602075260174_224259906",
+      "id": "paragraph_1602075260174_224259906",
+      "dateCreated": "2020-10-07 12:54:20.176",
+      "dateStarted": "2020-10-07 12:55:20.547",
+      "dateFinished": "2020-10-07 12:55:20.569",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val bandDf \u003d Seq(\n      (1, 1953),\n      (2, 1952),\n      (3, 1953)\n    ).toDF(\"id\", \"born\")\n    \n    \nbandDf.write\n    .format(\"org.neo4j.spark.DataSource\")\n    .option(\"url\", \"bolt://neo4j:7687\")\n    .option(\"authentication.type\", \"basic\")\n    .option(\"authentication.basic.username\", \"neo4j\")\n    .option(\"authentication.basic.password\", \"zeppelin\")\n    .mode(\"Overwrite\")\n    .option(\"labels\", \":Person:Musician\")\n    .option(\"node.keys\", \"id\")\n    .save\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-10-07 12:53:44.362",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mbandDf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [id: int, born: int]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1602075073046_2059588553",
+      "id": "paragraph_1602075073046_2059588553",
+      "dateCreated": "2020-10-07 12:51:13.047",
+      "dateStarted": "2020-10-07 12:53:44.376",
+      "dateFinished": "2020-10-07 12:53:45.700",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%neo4j\n\nMATCH (n:Person:Musician) RETURN n",
+      "user": "anonymous",
+      "dateUpdated": "2020-10-07 12:53:54.616",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "id": "string",
+                      "label": "string",
+                      "name": "string",
+                      "born": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/text"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "NETWORK",
+            "data": "{\"nodes\":[{\"id\":6,\"data\":{\"name\":\"Alex Lifeson\",\"id\":1,\"born\":1953},\"label\":\"Person\"},{\"id\":7,\"data\":{\"name\":\"Neil Peart\",\"id\":2,\"born\":1952},\"label\":\"Person\"},{\"id\":8,\"data\":{\"name\":\"Geddy Lee\",\"id\":3,\"born\":1953},\"label\":\"Person\"}],\"edges\":[],\"labels\":{\"Person\":\"#A32D26\",\"Musician\":\"#62D4A4\"},\"types\":[],\"directed\":true}"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1602075172928_1941136873",
+      "id": "paragraph_1602075172928_1941136873",
+      "dateCreated": "2020-10-07 12:52:52.928",
+      "dateStarted": "2020-10-07 12:53:54.636",
+      "dateFinished": "2020-10-07 12:53:54.704",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n\n## Writing relationship",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:13:50.380",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eWriting relationship\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1601988757894_819809750",
+      "id": "paragraph_1601988757894_819809750",
+      "dateCreated": "2020-10-06 12:52:37.894",
+      "dateStarted": "2020-10-06 12:52:49.881",
+      "dateFinished": "2020-10-06 12:52:49.897",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val musicDf \u003d Seq(\n      (12, \"John Bonham\", \"Drums\"),\n      (19, \"John Mayer\", \"Guitar\"),\n      (32, \"John Scofield\", \"Guitar\"),\n      (15, \"John Butler\", \"Guitar\")\n    ).toDF(\"experience\", \"name\", \"instrument\")\n    \n    \nmusicDf.write\n    .format(\"org.neo4j.spark.DataSource\")\n    .option(\"url\", \"bolt://neo4j:7687\")\n    .option(\"authentication.type\", \"basic\")\n    .option(\"authentication.basic.username\", \"neo4j\")\n    .option(\"authentication.basic.password\", \"zeppelin\")\n    .option(\"relationship\", \"PLAYS\")\n    .option(\"relationship.source.save.mode\", \"ErrorIfExists\")\n    .option(\"relationship.target.save.mode\", \"Overwrite\")\n    .option(\"relationship.save.strategy\", \"keys\")\n    .option(\"relationship.source.labels\", \":Musician\")\n    .option(\"relationship.source.node.keys\", \"name:name\")\n    .option(\"relationship.target.labels\", \":Instrument\")\n    .option(\"relationship.target.node.keys\", \"instrument:name\")\n    .save",
+      "user": "anonymous",
+      "dateUpdated": "2020-10-06 13:18:38.691",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mmusicDf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [experience: int, name: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1598874400391_-1735147610",
+      "id": "paragraph_1598874400391_-1735147610",
+      "dateCreated": "2020-08-31 11:46:40.391",
+      "dateStarted": "2020-10-06 13:18:38.712",
+      "dateFinished": "2020-10-06 13:18:40.852",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%neo4j\n\nMATCH (m:Musician)-[p:PLAYS]-\u003e(i:Instrument) RETURN m,p,i",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:07:36.098",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "network",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "id": "string",
+                      "label": "string",
+                      "name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "id",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "label",
+                  "index": 1.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/undefined"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1601988801498_828048611",
+      "id": "paragraph_1601988801498_828048611",
+      "dateCreated": "2020-10-06 12:53:21.498",
+      "dateStarted": "2021-02-23 10:07:36.130",
+      "dateFinished": "2021-02-23 10:07:36.222",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val musicDf \u003d Seq(\n      (1, \"John Bonham\", \"Guitar\"),\n      (8, \"John Bonham\", \"Congas\"),\n      (3, \"John Butler\", \"Double Bass\")\n    ).toDF(\"experience\", \"name\", \"instrument\")\n    \n    \nmusicDf.write\n    .format(\"org.neo4j.spark.DataSource\")\n    .option(\"url\", \"bolt://neo4j:7687\")\n    .option(\"authentication.type\", \"basic\")\n    .option(\"authentication.basic.username\", \"neo4j\")\n    .option(\"authentication.basic.password\", \"zeppelin\")\n    .option(\"relationship\", \"PLAYS\")\n    .option(\"relationship.source.save.mode\", \"Overwrite\")\n    .option(\"relationship.target.save.mode\", \"Overwrite\")\n    .option(\"relationship.save.strategy\", \"keys\")\n    .option(\"relationship.source.labels\", \":Musician\")\n    .option(\"relationship.source.node.keys\", \"name:name\")\n    .option(\"relationship.target.labels\", \":Instrument\")\n    .option(\"relationship.target.node.keys\", \"instrument:name\")\n    .save",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:28:19.138",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Interpreter process is not running\nInterpreter launch command:  /usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dfile.encoding\u003dUTF-8 -Dlog4j.configuration\u003d\u0027file:///zeppelin/conf/log4j.properties\u0027 -Dlog4j.configurationFile\u003d\u0027file:///zeppelin/conf/log4j2.properties\u0027 -Dzeppelin.log.file\u003d\u0027/zeppelin/logs/zeppelin-interpreter-spark-shared_process--be60463f2d5b.log\u0027 -Xms1024m -Xmx2048m -cp \":/zeppelin/local-repo/spark/*:/zeppelin/interpreter/spark/dep/*:/zeppelin/interpreter/spark/*::/zeppelin/interpreter/zeppelin-interpreter-shaded-0.9.0-preview2.jar\" org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer 172.19.0.3 35537 \"spark-shared_process\" :\nSLF4J: Class path contains multiple SLF4J bindings.\nSLF4J: Found binding in [jar:file:/zeppelin/interpreter/spark/dep/zeppelin-spark-dependencies-0.9.0-preview2.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J: Found binding in [jar:file:/zeppelin/interpreter/spark/spark-interpreter-0.9.0-preview2.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.\nSLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]\n2021-02-23 08:32:39 WARN  ZeppelinConfiguration:161 - Failed to load configuration, proceeding with a default\n2021-02-23 08:32:39 INFO  ZeppelinConfiguration:173 - Server Host: 0.0.0.0\n2021-02-23 08:32:39 INFO  ZeppelinConfiguration:175 - Server Port: 8080\n2021-02-23 08:32:39 INFO  ZeppelinConfiguration:179 - Context Path: /\n2021-02-23 08:32:39 INFO  ZeppelinConfiguration:180 - Zeppelin Version: 0.9.0-preview2\n2021-02-23 08:32:39 INFO  RemoteInterpreterServer:170 - Starting remote interpreter server on port 0, intpEventServerAddress: 172.19.0.3:35537\n2021-02-23 08:32:39 INFO  RemoteInterpreterServer:194 - Launching ThriftServer at 172.19.0.3:36655\n2021-02-23 08:32:39 INFO  RemoteInterpreterServer:232 - Registering interpreter process\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1598962718901_-250731872",
+      "id": "paragraph_1598962718901_-250731872",
+      "dateCreated": "2020-09-01 12:18:38.901",
+      "dateStarted": "2021-02-23 10:28:19.160",
+      "dateFinished": "2021-02-23 10:28:19.165",
+      "status": "ERROR"
+    },
+    {
+      "text": "%neo4j\n\nMATCH (m:Musician)-[p:PLAYS]-\u003e(i:Instrument) RETURN m,p,i",
+      "user": "anonymous",
+      "dateUpdated": "2020-10-06 13:19:19.403",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "network",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "id": "string",
+                      "label": "string",
+                      "name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/text"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "NETWORK",
+            "data": "{\"nodes\":[{\"id\":176,\"data\":{\"name\":\"Guitar\"},\"label\":\"Instrument\"},{\"id\":177,\"data\":{\"name\":\"Congas\"},\"label\":\"Instrument\"},{\"id\":178,\"data\":{\"name\":\"Double Bass\"},\"label\":\"Instrument\"},{\"id\":171,\"data\":{\"name\":\"John Bonham\"},\"label\":\"Musician\"},{\"id\":172,\"data\":{\"name\":\"John Mayer\"},\"label\":\"Musician\"},{\"id\":173,\"data\":{\"name\":\"John Scofield\"},\"label\":\"Musician\"},{\"id\":174,\"data\":{\"name\":\"John Butler\"},\"label\":\"Musician\"},{\"id\":175,\"data\":{\"name\":\"Drums\"},\"label\":\"Instrument\"}],\"edges\":[{\"source\":174,\"target\":176,\"id\":256,\"data\":{},\"label\":\"PLAYS\"},{\"source\":171,\"target\":176,\"id\":257,\"data\":{},\"label\":\"PLAYS\"},{\"source\":171,\"target\":177,\"id\":258,\"data\":{},\"label\":\"PLAYS\"},{\"source\":174,\"target\":178,\"id\":259,\"data\":{},\"label\":\"PLAYS\"},{\"source\":171,\"target\":175,\"id\":253,\"data\":{},\"label\":\"PLAYS\"},{\"source\":172,\"target\":176,\"id\":254,\"data\":{},\"label\":\"PLAYS\"},{\"source\":173,\"target\":176,\"id\":255,\"data\":{},\"label\":\"PLAYS\"}],\"labels\":{\"Person\":\"#C5F06C\",\"Musician\":\"#FB7B7F\",\"Instrument\":\"#C26546\",\"Movie\":\"#0CA172\"},\"types\":[\"ACTED_IN\",\"REVIEWED\",\"PLAYS\",\"PRODUCED\",\"WROTE\",\"FOLLOWS\",\"DIRECTED\"],\"directed\":true}"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1601971024198_-1734110607",
+      "id": "paragraph_1601971024198_-1734110607",
+      "dateCreated": "2020-10-06 07:57:04.199",
+      "dateStarted": "2020-10-06 13:19:19.423",
+      "dateFinished": "2020-10-06 13:19:19.477",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n\n## Writing with Query",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:13:57.533",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eWriting with Query\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1601990344147_-823611131",
+      "id": "paragraph_1601990344147_-823611131",
+      "dateCreated": "2020-10-06 13:19:04.147",
+      "dateStarted": "2021-02-23 10:13:57.539",
+      "dateFinished": "2021-02-23 10:13:57.563",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val musicDf \u003d Seq(\n      (\"John Bonham\", \"Bonzo\"),\n      (\"Louis Daniel Armstrong\", \"Pops\"),\n      (\"Sergio Conforti\", \"Rocco Tanica\")\n    ).toDF(\"name\", \"alias\")\n\n\nmusicDf.write\n    .format(\"org.neo4j.spark.DataSource\")\n    .option(\"url\", \"bolt://neo4j:7687\")\n    .option(\"authentication.type\", \"basic\")\n    .option(\"authentication.basic.username\", \"neo4j\")\n    .option(\"authentication.basic.password\", \"zeppelin\")\n    .option(\n        \"query\",\n     \"\"\"|MERGE (m:Musician {name: event.name})\n        |SET m.alias \u003d event.alias\"\"\".stripMargin\n    )\n    .save",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:30:24.669",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mmusicDf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [name: string, alias: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1614075220423_932824853",
+      "id": "paragraph_1614075220423_932824853",
+      "dateCreated": "2021-02-23 10:13:40.434",
+      "dateStarted": "2021-02-23 10:30:24.733",
+      "dateFinished": "2021-02-23 10:30:56.575",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%neo4j\n\nMATCH (m:Musician) WHERE m.alias IS NOT NULL RETURN m.name, m.alias",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:31:46.660",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "m.name": "string",
+                      "m.alias": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/undefined"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "m.name\tm.alias\n\"Louis Daniel Armstrong\"\t\"Pops\"\n\"John Bonham\"\t\"Bonzo\"\n\"Sergio Conforti\"\t\"Rocco Tanica\"\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1614075871213_1757481143",
+      "id": "paragraph_1614075871213_1757481143",
+      "dateCreated": "2021-02-23 10:24:31.213",
+      "dateStarted": "2021-02-23 10:31:46.687",
+      "dateFinished": "2021-02-23 10:31:47.327",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%neo4j\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-02-23 10:31:06.439",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1614076266435_1487027216",
+      "id": "paragraph_1614076266435_1487027216",
+      "dateCreated": "2021-02-23 10:31:06.436",
+      "status": "READY"
+    }
+  ],
+  "name": "Scala - Basic Writing",
+  "id": "2FHU38B34",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

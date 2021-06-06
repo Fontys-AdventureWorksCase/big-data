@@ -1,0 +1,83 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark.pyspark\n\nfrom pyspark.sql import SparkSession\n\nspark \u003d SparkSession.builder.master(\"local[1]\") \\\n    .appName(\"Neo4jConnection\")\\\n    .getOrCreate()\nquery \u003d \"\"\"\nMATCH (m:User) RETURN m\n\"\"\"\n\nspark.read.format(\"org.neo4j.spark.DataSource\") \\\n    .option(\"url\", \"bolt://neo4j:7687\") \\\n    .option(\"authentication.type\", \"basic\") \\\n    .option(\"authentication.basic.username\", \"neo4j\") \\\n    .option(\"authentication.basic.password\", \"password\") \\\n    .option(\"query\", \"MATCH (m:Anime) RETURN m\") \\\n    .option(\"partitions\", \"1\") \\\n    .load() \\\n    .show()",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-04 14:07:51.838",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+\n|                   m|\n+--------------------+\n|[0, [Anime], 24 m...|\n|[1, [Anime], 24 m...|\n|[2, [Anime], 24 m...|\n|[3, [Anime], 16 m...|\n|[4, [Anime], 24 m...|\n|[5, [Anime], 24 m...|\n|[6, [Anime], 24 m...|\n|[7, [Anime], 24 m...|\n|[8, [Anime], 23 m...|\n|[9, [Anime], 23 m...|\n|[10, [Anime], 24 ...|\n|[11, [Anime], 24 ...|\n|[12, [Anime], 24 ...|\n|[13, [Anime], 24 ...|\n|[14, [Anime], 24 ...|\n|[15, [Anime], 24 ...|\n|[16, [Anime], 22 ...|\n|[17, [Anime], 23 ...|\n|[18, [Anime], 24 ...|\n|[19, [Anime], 24 ...|\n+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1620889222939_828514314",
+      "id": "20210513-070022_353211704",
+      "dateCreated": "2021-05-13 07:00:22.939",
+      "dateStarted": "2021-06-03 22:10:46.227",
+      "dateFinished": "2021-06-03 22:10:47.935",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark.pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-03 22:10:48.029",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1621915043928_-1496725844",
+      "id": "20210525-035723_217503153",
+      "dateCreated": "2021-05-25 03:57:23.929",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Load animes",
+  "id": "2G4RVA2W7",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {
+    "python:shared_process": [],
+    "spark:shared_process": []
+  },
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
