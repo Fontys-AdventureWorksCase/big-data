@@ -30,8 +30,14 @@ NB: I didn't actually get this to work. These are the steps I took.
 
 `docker-compose exec neo4j bash`
 
-Make sure the db is empty
+Make sure the anime db is empty
 `rm -r /data/*/anime/`
+
+Change to the anime db in the configuration (in neo4j community edition only 1 database can be accessed at a time)
+
+`nano /conf/neo4j.conf` (or `nano neo4j/conf/neo4j.conf` outside the container)
+
+![image](https://user-images.githubusercontent.com/4932561/120935908-3ef5eb80-c705-11eb-9ed1-1a0dc0c10568.png)
 
 Header rows should be changed to:
 - _anime_cleaned.csv_
