@@ -1,4 +1,7 @@
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/big-data-europe/Lobby)
+Source: https://github.com/Marcel-Jan/docker-hadoop-spark
+
+
+
 
 # Docker multi-container environment with Hadoop, Spark and Hive
 
