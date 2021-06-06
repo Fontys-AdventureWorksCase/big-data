@@ -169,11 +169,7 @@ Okay. Beeline is the command line interface with Hive. Let's connect to hiveserv
 
 ```
   beeline -u jdbc:hive2://localhost:10000 -n root
-  
-  !connect jdbc:hive2://127.0.0.1:10000 scott tiger
 ```
-
-Didn't expect to encounter scott/tiger again after my Oracle days. But there you have it. Definitely not a good idea to keep that user on production.
 
 Not a lot of databases here yet.
 ```
@@ -237,12 +233,12 @@ There you go: your private Hive server to play with.
 
 The configuration parameters can be specified in the hadoop.env file or as environmental variables for specific services (e.g. namenode, datanode etc.):
 ```
-  CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+  CORE_CONF_fs_defaultFS=hdfs://namenode:9000
 ```
 
-CORE_CONF corresponds to core-site.xml. fs_defaultFS=hdfs://namenode:8020 will be transformed into:
+CORE_CONF corresponds to core-site.xml. fs_defaultFS=hdfs://namenode:9000 will be transformed into:
 ```
-  <property><name>fs.defaultFS</name><value>hdfs://namenode:8020</value></property>
+  <property><name>fs.defaultFS</name><value>hdfs://namenode:9000</value></property>
 ```
 To define dash inside a configuration parameter, use triple underscore, such as YARN_CONF_yarn_log___aggregation___enable=true (yarn-site.xml):
 ```
