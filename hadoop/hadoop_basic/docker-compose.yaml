@@ -9,6 +9,7 @@ services:
             - 9000:9000
         volumes:
             - hadoop_namenode:/hadoop/dfs/name
+            - ./volumes/import:/import
         environment:
             - CLUSTER_NAME=Fontys
         env_file:
