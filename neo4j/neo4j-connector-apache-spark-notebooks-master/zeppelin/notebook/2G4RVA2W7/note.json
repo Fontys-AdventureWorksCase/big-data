@@ -1,9 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "%spark.pyspark\n\nfrom pyspark.sql import SparkSession\n\nspark \u003d SparkSession.builder.master(\"local[1]\") \\\n    .appName(\"Neo4jConnection\")\\\n    .getOrCreate()\nquery \u003d \"\"\"\nMATCH (m:Anime) RETURN m\n\"\"\"\n\nspark.read.format(\"org.neo4j.spark.DataSource\") \\\n    .option(\"url\", \"bolt://neo4j:7687\") \\\n    .option(\"authentication.type\", \"basic\") \\\n    .option(\"authentication.basic.username\", \"neo4j\") \\\n    .option(\"authentication.basic.password\", \"password\") \\\n    .option(\"query\", \"MATCH (m:Anime) RETURN m\") \\\n    .option(\"partitions\", \"1\") \\\n    .load() \\\n    .show()",
+      "text": "%spark.pyspark\n\nfrom pyspark.sql import SparkSession\n\nspark \u003d SparkSession.builder.master(\"local[1]\") \\\n    .appName(\"Neo4jConnection\")\\\n    .getOrCreate()\nquery \u003d \"\"\"\nMATCH (m:User) RETURN m\n\"\"\"\n\nspark.read.format(\"org.neo4j.spark.DataSource\") \\\n    .option(\"url\", \"bolt://neo4j:7687\") \\\n    .option(\"authentication.type\", \"basic\") \\\n    .option(\"authentication.basic.username\", \"neo4j\") \\\n    .option(\"authentication.basic.password\", \"password\") \\\n    .option(\"query\", \"MATCH (m:Anime) RETURN m\") \\\n    .option(\"partitions\", \"1\") \\\n    .load() \\\n    .show()",
       "user": "anonymous",
-      "dateUpdated": "2021-06-03 22:10:46.218",
+      "dateUpdated": "2021-06-04 14:07:51.838",
       "config": {
         "colWidth": 12.0,
         "fontSize": 9.0,
@@ -68,7 +68,7 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Python - Simple Reading",
+  "name": "Load animes",
   "id": "2G4RVA2W7",
   "noteParams": {},
   "noteForms": {},

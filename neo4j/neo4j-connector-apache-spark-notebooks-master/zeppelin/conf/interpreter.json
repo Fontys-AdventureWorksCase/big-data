@@ -1327,7 +1327,7 @@
           "type": "textarea"
         }
       },
-      "status": "READY",
+      "status": "DOWNLOADING_DEPENDENCIES",
       "interpreterGroup": [
         {
           "name": "spark",
@@ -1664,29 +1664,6 @@
       "neo4j",
       "sap"
     ],
-    "2G9518P7P": [
-      "spark",
-      "md",
-      "angular",
-      "sh",
-      "livy",
-      "alluxio",
-      "file",
-      "flink",
-      "python",
-      "ignite",
-      "lens",
-      "cassandra",
-      "kylin",
-      "elasticsearch",
-      "jdbc",
-      "hbase",
-      "bigquery",
-      "pig",
-      "groovy",
-      "neo4j",
-      "sap"
-    ],
     "2G4RVA2W7": [
       "python",
       "spark",
@@ -1802,6 +1779,29 @@
       "neo4j",
       "sap"
     ],
+    "2G9518P7P": [
+      "spark",
+      "md",
+      "angular",
+      "sh",
+      "livy",
+      "alluxio",
+      "file",
+      "flink",
+      "python",
+      "ignite",
+      "lens",
+      "cassandra",
+      "kylin",
+      "elasticsearch",
+      "jdbc",
+      "hbase",
+      "bigquery",
+      "pig",
+      "groovy",
+      "neo4j",
+      "sap"
+    ],
     "2G1DTJQFM": [
       "spark",
       "md",
@@ -1826,6 +1826,29 @@
       "sap"
     ],
     "2DHCVSHV5": [
+      "spark",
+      "md",
+      "angular",
+      "sh",
+      "livy",
+      "alluxio",
+      "file",
+      "flink",
+      "python",
+      "ignite",
+      "lens",
+      "cassandra",
+      "kylin",
+      "elasticsearch",
+      "jdbc",
+      "hbase",
+      "bigquery",
+      "pig",
+      "groovy",
+      "neo4j",
+      "sap"
+    ],
+    "2G8FJ6EST": [
       "spark",
       "md",
       "angular",

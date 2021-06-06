@@ -30,6 +30,7 @@ services:
     environment: 
       - ZEPPELIN_ADDR=0.0.0.0
     volumes:
+      - ./neo4j/import:/import
       - ./zeppelin/notebook:/zeppelin/notebook
       - ./zeppelin/conf:/zeppelin/conf
       - ./zeppelin/data:/zeppelin/spark-warehouse
