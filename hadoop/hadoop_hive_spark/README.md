@@ -5,21 +5,16 @@ Source: https://github.com/Marcel-Jan/docker-hadoop-spark
 
 # Docker multi-container environment with Hadoop, Spark and Hive
 
-This is it: a Docker multi-container environment with Hadoop (HDFS), Spark and Hive. But without the large memory requirements of a Cloudera sandbox. (On my Windows 10 laptop (with WSL2) it seems to consume a mere 3 GB.)
-
-The only thing lacking, is that Hive server doesn't start automatically. To be added when I understand how to do that in docker-compose.
-
-
 ## Quick Start
 
-To deploy an the HDFS-Spark-Hive cluster, run:
-```
-  docker-compose up
+To deploy the HDFS-Spark-Hive cluster, run:
+```bash
+  docker-compose up -d
 ```
 
 `docker-compose` creates a docker network that can be found by running `docker network list`, e.g. `docker-hadoop-spark-hive_default`.
 
-Run `docker network inspect` on the network (e.g. `docker-hadoop-spark-hive_default`) to find the IP the hadoop interfaces are published on. Access these interfaces with the following URLs:
+Run `docker network inspect` on the network (e.g. `hadoop_hive_spark_default`) to find the IP the hadoop interfaces are published on. Access these interfaces with the following URLs:
 
 * Namenode: http://<dockerhadoop_IP_address>:9870/dfshealth.html#tab-overview
 * History server: http://<dockerhadoop_IP_address>:8188/applicationhistory
@@ -32,225 +27,160 @@ Run `docker network inspect` on the network (e.g. `docker-hadoop-spark-hive_defa
 
 ## Quick Start HDFS
 
-Copy breweries.csv to the namenode.
-```
-  docker cp breweries.csv namenode:breweries.csv
-```
-
-Go to the bash shell on the namenode with that same Container ID of the namenode.
-```
+```bash
   docker exec -it namenode bash
+  hadoop fs -mkdir /ml_data
+  hadoop fs -put /import/ml_data /ml_data
 ```
 
+## Quick Start Spark
 
-Create a HDFS directory /data//openbeer/breweries.
-
-```
-  hdfs dfs -mkdir -p /data/openbeer/breweries
-```
-
-Copy breweries.csv to HDFS:
-```
-  hdfs dfs -put breweries.csv /data/openbeer/breweries/breweries.csv
-```
-
-
-## Quick Start Spark (PySpark)
-
-Go to http://<dockerhadoop_IP_address>:8080 or http://localhost:8080/ on your Docker host (laptop) to see the status of the Spark master.
-
-Go to the command line of the Spark master and start PySpark.
-```
+```bash
   docker exec -it spark-master bash
 
   /spark/bin/pyspark --master spark://spark-master:7077
 ```
 
-Load breweries.csv from HDFS.
+Load .csv example in pyspark
 ```
   brewfile = spark.read.csv("hdfs://namenode:9000/data/openbeer/breweries/breweries.csv")
-  
   brewfile.show()
-+----+--------------------+-------------+-----+---+
-| _c0|                 _c1|          _c2|  _c3|_c4|
-+----+--------------------+-------------+-----+---+
-|null|                name|         city|state| id|
-|   0|  NorthGate Brewing |  Minneapolis|   MN|  0|
-|   1|Against the Grain...|   Louisville|   KY|  1|
-|   2|Jack's Abby Craft...|   Framingham|   MA|  2|
-|   3|Mike Hess Brewing...|    San Diego|   CA|  3|
-|   4|Fort Point Beer C...|San Francisco|   CA|  4|
-|   5|COAST Brewing Com...|   Charleston|   SC|  5|
-|   6|Great Divide Brew...|       Denver|   CO|  6|
-|   7|    Tapistry Brewing|     Bridgman|   MI|  7|
-|   8|    Big Lake Brewing|      Holland|   MI|  8|
-|   9|The Mitten Brewin...| Grand Rapids|   MI|  9|
-|  10|      Brewery Vivant| Grand Rapids|   MI| 10|
-|  11|    Petoskey Brewing|     Petoskey|   MI| 11|
-|  12|  Blackrocks Brewery|    Marquette|   MI| 12|
-|  13|Perrin Brewing Co...|Comstock Park|   MI| 13|
-|  14|Witch's Hat Brewi...|   South Lyon|   MI| 14|
-|  15|Founders Brewing ...| Grand Rapids|   MI| 15|
-|  16|   Flat 12 Bierwerks| Indianapolis|   IN| 16|
-|  17|Tin Man Brewing C...|   Evansville|   IN| 17|
-|  18|Black Acre Brewin...| Indianapolis|   IN| 18|
-+----+--------------------+-------------+-----+---+
-only showing top 20 rows
-
 ```
-
-
-
-## Quick Start Spark (Scala)
-
 Go to http://<dockerhadoop_IP_address>:8080 or http://localhost:8080/ on your Docker host (laptop) to see the status of the Spark master.
 
-Go to the command line of the Spark master and start spark-shell.
-```
-  docker exec -it spark-master bash
-  
-  spark/bin/spark-shell --master spark://spark-master:7077
-```
 
-Load breweries.csv from HDFS.
-```
-  val df = spark.read.csv("hdfs://namenode:9000/data/openbeer/breweries/breweries.csv")
-  
-  df.show()
-+----+--------------------+-------------+-----+---+
-| _c0|                 _c1|          _c2|  _c3|_c4|
-+----+--------------------+-------------+-----+---+
-|null|                name|         city|state| id|
-|   0|  NorthGate Brewing |  Minneapolis|   MN|  0|
-|   1|Against the Grain...|   Louisville|   KY|  1|
-|   2|Jack's Abby Craft...|   Framingham|   MA|  2|
-|   3|Mike Hess Brewing...|    San Diego|   CA|  3|
-|   4|Fort Point Beer C...|San Francisco|   CA|  4|
-|   5|COAST Brewing Com...|   Charleston|   SC|  5|
-|   6|Great Divide Brew...|       Denver|   CO|  6|
-|   7|    Tapistry Brewing|     Bridgman|   MI|  7|
-|   8|    Big Lake Brewing|      Holland|   MI|  8|
-|   9|The Mitten Brewin...| Grand Rapids|   MI|  9|
-|  10|      Brewery Vivant| Grand Rapids|   MI| 10|
-|  11|    Petoskey Brewing|     Petoskey|   MI| 11|
-|  12|  Blackrocks Brewery|    Marquette|   MI| 12|
-|  13|Perrin Brewing Co...|Comstock Park|   MI| 13|
-|  14|Witch's Hat Brewi...|   South Lyon|   MI| 14|
-|  15|Founders Brewing ...| Grand Rapids|   MI| 15|
-|  16|   Flat 12 Bierwerks| Indianapolis|   IN| 16|
-|  17|Tin Man Brewing C...|   Evansville|   IN| 17|
-|  18|Black Acre Brewin...| Indianapolis|   IN| 18|
-+----+--------------------+-------------+-----+---+
-only showing top 20 rows
-
-```
-
-How cool is that? Your own Spark cluster to play with.
-
-
-## Quick Start Hive
+## Assignment Hive
 
 Go to the command line of the Hive server and start hiveserver2
 
-```
-  docker exec -it hive-server bash
-
-  hiveserver2
-```
-
-Maybe a little check that something is listening on port 10000 now
-```
-  netstat -anp | grep 10000
-tcp        0      0 0.0.0.0:10000           0.0.0.0:*               LISTEN      446/java
-
+```bash
+docker exec -it hive-server bash
+Hiveserver2 // I believe you can skip this line
+beeline -u jdbc:hive2://localhost:10000 -n root
 ```
 
-Okay. Beeline is the command line interface with Hive. Let's connect to hiveserver2 now.
+In beeline write
+```sql
+CREATE DATABASE movielens;
+USE movielens;
+```
+### create and fill ratings table
+```sql
+DROP TABLE IF EXISTS ratings;
 
-```
-  beeline -u jdbc:hive2://localhost:10000 -n root
-```
-
-Not a lot of databases here yet.
-```
-  show databases;
-  
-+----------------+
-| database_name  |
-+----------------+
-| default        |
-+----------------+
-1 row selected (0.335 seconds)
-```
-
-Let's change that.
-
-```
-  create database openbeer;
-  use openbeer;
-```
-
-And let's create a table.
-
-```
-CREATE EXTERNAL TABLE IF NOT EXISTS breweries(
-    NUM INT,
-    NAME CHAR(100),
-    CITY CHAR(100),
-    STATE CHAR(100),
-    ID INT )
+CREATE TABLE ratings (user_id SMALLINT, movie_id SMALLINT, rating TINYINT, stamp INT)
 ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ','
-STORED AS TEXTFILE
-location '/data/openbeer/breweries';
-```
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE;
 
-And have a little select statement going.
+LOAD DATA INPATH '/ml_data/ml_data/u.data' OVERWRITE INTO TABLE ratings;
 
+SELECT * FROM ratings LIMIT 10;
 ```
-  select name from breweries limit 10;
-+----------------------------------------------------+
-|                        name                        |
-+----------------------------------------------------+
-| name                                                                                                 |
-| NorthGate Brewing                                                                                    |
-| Against the Grain Brewery                                                                            |
-| Jack's Abby Craft Lagers                                                                             |
-| Mike Hess Brewing Company                                                                            |
-| Fort Point Beer Company                                                                              |
-| COAST Brewing Company                                                                                |
-| Great Divide Brewing Company                                                                         |
-| Tapistry Brewing                                                                                     |
-| Big Lake Brewing                                                                                     |
-+----------------------------------------------------+
-10 rows selected (0.113 seconds)
-```
-
-There you go: your private Hive server to play with.
+* stamp column must be converted to TIMESTAMP after import
+Example:
+	create table mytime(a string, b timestamp);
+insert into table mytime select a, from_unixtime(unix_timestamp(b, 'dd-MM-yyyy HH:mm')) from tmp;
+Also check: https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#LanguageManualUDF-DateFunctions
 
 
-## Configure Environment Variables
+### create and fill movies table
+```sql
+DROP TABLE IF EXISTS movies;
 
-The configuration parameters can be specified in the hadoop.env file or as environmental variables for specific services (e.g. namenode, datanode etc.):
+CREATE TABLE movies (movie_id SMALLINT, title STRING, released STRING, video_released STRING, imdb_url STRING, genre_unknown BINARY, genre_action BINARY, genre_adventure BINARY, genre_animation BINARY, genre_childrens BINARY, genre_comedy BINARY, genre_crime BINARY, genre_documentary BINARY, genre_drama BINARY, genre_fantasy BINARY, genre_filmnoir BINARY, genre_horror BINARY, genre_musical BINARY, genre_mystery BINARY, genre_romance BINARY, genre_scifi BINARY, genre_thriller BINARY, genre_war BINARY, genre_western BINARY)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+STORED AS TEXTFILE;
+
+LOAD DATA INPATH '/ml_data/ml_data/u.item' OVERWRITE INTO TABLE movies;
+
+SELECT * FROM movies LIMIT 10;
 ```
-  CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+* two released columns need to be converted to datatype DATE after import
+** BINARY can be converted to BOOLEAN after import
+
+
+### create and fill users table
+```sql
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users ( user_id SMALLINT, age TINYINT, gender VARCHAR(1), occupation STRING, zip_code INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+STORED AS TEXTFILE;
+
+LOAD DATA INPATH '/ml_data/ml_data/u.user' OVERWRITE INTO TABLE users;
+
+SELECT * FROM users LIMIT 10;
 ```
 
-CORE_CONF corresponds to core-site.xml. fs_defaultFS=hdfs://namenode:9000 will be transformed into:
+### questions
+
+1. 
+```sql
+SELECT COUNT(*) FROM users
+WHERE gender = 'M';
 ```
-  <property><name>fs.defaultFS</name><value>hdfs://namenode:9000</value></property>
+670
+```sql
+SELECT COUNT(*) FROM users
+WHERE gender = 'F';
 ```
-To define dash inside a configuration parameter, use triple underscore, such as YARN_CONF_yarn_log___aggregation___enable=true (yarn-site.xml):
+273
+
+2. 
+```sql
+SELECT occupation, gender, count(*) FROM users
+GROUP BY occupation, gender
+ORDER BY occupation, gender
 ```
-  <property><name>yarn.log-aggregation-enable</name><value>true</value></property>
++----------------+---------+------+
+|   occupation   | gender  | _c2  |
++----------------+---------+------+
+| administrator  | F       | 36   |
+| administrator  | M       | 43   |
+| artist         | F       | 13   |
+| artist         | M       | 15   |
+| doctor         | M       | 7    |
+| educator       | F       | 26   |
+[…]
+
+3.
+```sql
+SELECT m.movie_id, m.title, u.gender, AVG(r.rating) as average_rating, count(r.rating) as n_ratings FROM movies m 
+JOIN ratings r ON r.movie_id = m.movie_id
+JOIN users u ON u.user_id = r.user_id
+GROUP BY m.movie_id, title, u.gender
+ORDER BY average_rating DESC
+LIMIT 10
 ```
 
-The available configurations are:
-* /etc/hadoop/core-site.xml CORE_CONF
-* /etc/hadoop/hdfs-site.xml HDFS_CONF
-* /etc/hadoop/yarn-site.xml YARN_CONF
-* /etc/hadoop/httpfs-site.xml HTTPFS_CONF
-* /etc/hadoop/kms-site.xml KMS_CONF
-* /etc/hadoop/mapred-site.xml  MAPRED_CONF
+There are several candidates, but it's doubtful whether the results are worth anything, because these high averages are based on very few ratings. IMDB calculates weighted average ratings using statistical methods. They do not disclose their exact calculations to prevent abuse.
 
-If you need to extend some other configuration file, refer to base/entrypoint.sh bash script.
++-------------+-----------------------------------------+-----------+-----------------+------------+
+| m.movie_id  |                 m.title                 | u.gender  | average_rating  | n_ratings  |
++-------------+-----------------------------------------+-----------+-----------------+------------+
+| 883         | Telling Lies in America (1997)          | F         | 5.0             | 1          |
+| 1175        | Hugo Pool (1997)                        | M         | 5.0             | 2          |
+| 1605        | Love Serenade (1996)                    | M         | 5.0             | 1          |
+| 1144        | Quiet Room, The (1996)                  | M         | 5.0             | 1          |
+| 884         | Year of the Horse (1997)                | F         | 5.0             | 1          |
+| 119         | Maya Lin: A Strong Clear Vision (1994)  | F         | 5.0             | 1          |
+| 814         | Great Day in Harlem, A (1994)           | M         | 5.0             | 1          |
+| 1189        | Prefontaine (1997)                      | M         | 5.0             | 2          |
+| 1656        | Little City (1998)                      | M         | 5.0             | 1          |
+| 74          | Faster Pussycat! Kill! Kill! (1965)     | F         | 5.0             | 1          |
++-------------+-----------------------------------------+-----------+-----------------+------------+
+
+4. (optional)
+```sql
+SELECT m.movie_id, m.title, u.gender, AVG(r.rating) as average_rating FROM movies m 
+JOIN ratings r ON r.movie_id = m.movie_id
+JOIN users u ON u.user_id = r.user_id
+GROUP BY m.movie_id, title, u.gender, m.genre_action, m.genre_romance, m.genre_horror 
+HAVING m.genre_action = 1 OR m.genre_romance = 1 OR m.genre_horror = 1
+ORDER BY average_rating DESC
+LIMIT 10
+```
+This gave an execution error. I stopped here since it was optional.
