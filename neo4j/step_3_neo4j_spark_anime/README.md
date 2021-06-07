@@ -80,9 +80,14 @@ Import successful:
 
 ![image](https://user-images.githubusercontent.com/4932561/120935427-f76e6000-c702-11eb-958f-63d7a4354587.png)
 
-However, admin-tool import is still preferred because it should have better optimization and is supposed to be faster. Perhaps it would work with options to ignore errors set to true, and some logging would help.
-
 Import the .json into Zeppelin to see the full code.
+
+## Considerations
+
+The admin-tool import is still preferred because it should have better optimization and is supposed to be faster. Perhaps it would work with --skip-bad-relationships and --skip-duplicate-nodes, and checking import reports could help.
+
+If you get it to work, don't forget to create indexes.
+
 
 
 
