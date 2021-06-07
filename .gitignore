@@ -1,3 +1,6 @@
 neo4j/**/data/
 neo4j/**/logs/
 neo4j/**/import/anime/
+**/import/dumpert/
+**/import/reaguursels.zip
+**/import/videos.zip
