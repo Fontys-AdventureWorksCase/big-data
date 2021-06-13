@@ -3,21 +3,25 @@
 ## Spark
 
 You could directly open PySpark and run commands
+
 ```bash
   docker exec -it spark-master bash
   /spark/bin/pyspark --master spark://spark-master:7077
 ```
 
 Load some .csv file into PySpark
-```
+
+```bash
   brewfile = spark.read.csv("hdfs://namenode:9000/some_data_dir/some_csv_file.csv")
   brewfile.show()
 ```
-Go to http://localhost:8080/ on your Docker host (laptop) to see the status of the Spark master.
+
+Go to <http://localhost:8080/> on your Docker host (laptop) to see the status of the Spark master.
 
 ## Jupyter
 
 I added these lines to the `docker-compose.yml` to add Jupyter
+
 ```json
   jupyterlab:
     image: andreper/jupyterlab:3.0.0-spark-3.0.0
@@ -38,20 +42,46 @@ docker-compose exec -it namenode bash
 Hadoop fs -mkdir /dumpert
 Hadoop fs -put /import/dumpert/ /dumpert
 ```
+
 NB: These files are not included on Github. Download them from the course material. It takes at least a few hours to import!
 
 ## Write PySpark code in Jupyter
 
-To access Jupyter go to `localhost:8888`.
+To access Jupyter go to <http://localhost:8888/>.
+
+Scroll down to find the jupyter notebook. (The most up-to-date version is available in folder Notebooks in its original format.)
+
+## Batch processing
+
+This is what the Spark WebUI shows when loading 5.4 gb of comments into a dataframe.
+
+![image](https://user-images.githubusercontent.com/4932561/121825075-c963bf80-ccb0-11eb-9b94-1d53d0fb4ebe.png)
+
+I had to set driver memory to 15GB or it would time out. (NB: It’s best practice to minimize the amount of collect operations 
+if possible or use a smaller subset of the data to collect during data exploration. From <https://key2consulting.com/boost-query-performance-databricks-spark/> )
+
+![image](https://user-images.githubusercontent.com/4932561/121825077-d1bbfa80-ccb0-11eb-9934-9fb7169c02a9.png)
+
+## Optimizations
+
+- Use caching
+  With: \
+  ![image](https://user-images.githubusercontent.com/4932561/121825162-219ac180-ccb1-11eb-96f8-a81470889a3b.png)
+  
+  Without: \
+  ![image](https://user-images.githubusercontent.com/4932561/121825172-2e1f1a00-ccb1-11eb-837e-3561e47a00ab.png)
+  
+  With: \
+  ![image](https://user-images.githubusercontent.com/4932561/121825185-39724580-ccb1-11eb-9528-5e3c99fe93e3.png) \
+  (Ignore count 15)
+  
+  Without: \
+  ![image](https://user-images.githubusercontent.com/4932561/121825190-3ecf9000-ccb1-11eb-821c-1323fb75297c.png)
 
 
-## Files
-hadoop /breweries/breweries.csv \
-hadoop /ml_data (movies) \
-hadoop /dumpert
+# Jupyter notebook
 
 ## Start session
-
 
 ```python
 from pyspark.sql import SparkSession
@@ -351,7 +381,7 @@ print(datetime.datetime.now()-startTime)
     0:00:28.307170
 
 
-## Structured Stream processing
+## Structured Stream processing (NOT FUNCTIONAL)
 
 
 ```python
@@ -406,141 +436,4 @@ streamingCounts.isStreaming
 #     .start()
 ```
 
-
-    ---------------------------------------------------------------------------
-
-    AnalysisException                         Traceback (most recent call last)
-
-    <ipython-input-8-f80a5eaf039e> in <module>
-          7     .option("maxFilesPerTrigger", 1) \
-          8     .json("hdfs://namenode:9000/dumpert/reaguursels/") \
-    ----> 9     .select(explode("data.comments").alias("comments")) \
-         10     .select( \
-         11       col("comments.approved").alias("approved") \
-
-
-    /usr/local/lib/python3.7/dist-packages/pyspark/sql/dataframe.py in select(self, *cols)
-       1419         [Row(name=u'Alice', age=12), Row(name=u'Bob', age=15)]
-       1420         """
-    -> 1421         jdf = self._jdf.select(self._jcols(*cols))
-       1422         return DataFrame(jdf, self.sql_ctx)
-       1423
-
-
-    /usr/local/lib/python3.7/dist-packages/py4j/java_gateway.py in __call__(self, *args)
-       1303         answer = self.gateway_client.send_command(command)
-       1304         return_value = get_return_value(
-    -> 1305             answer, self.gateway_client, self.target_id, self.name)
-       1306
-       1307         for temp_arg in temp_args:
-
-
-    /usr/local/lib/python3.7/dist-packages/pyspark/sql/utils.py in deco(*a, **kw)
-        135                 # Hide where the exception came from that shows a non-Pythonic
-        136                 # JVM exception message.
-    --> 137                 raise_from(converted)
-        138             else:
-        139                 raise
-
-
-    /usr/local/lib/python3.7/dist-packages/pyspark/sql/utils.py in raise_from(e)
-
-
-    AnalysisException: cannot resolve '`data.comments`' given input columns: [approved, article_id, article_link, article_title, author_is_newbie, author_username, banned, child_comments, creation_datetime, display_content, html_markup, id, is_author_premium_visible, kudos_count, parent_id, reference_id, report_count];;
-    'Project [explode('data.comments) AS comments#2463]
-    +- StreamingRelation DataSource(org.apache.spark.sql.SparkSession@39964bc3,json,List(),Some(StructType(StructField(approved,BooleanType,true), StructField(article_id,LongType,true), StructField(article_link,StringType,true), StructField(article_title,StringType,true), StructField(author_is_newbie,BooleanType,true), StructField(author_username,StringType,true), StructField(banned,BooleanType,true), StructField(child_comments,ArrayType(StructType(StructField(approved,BooleanType,true), StructField(article_id,LongType,true), StructField(article_link,StringType,true), StructField(article_title,StringType,true), StructField(author_is_newbie,BooleanType,true), StructField(author_username,StringType,true), StructField(banned,BooleanType,true), StructField(creation_datetime,TimestampType,true), StructField(display_content,StringType,true), StructField(html_markup,StringType,true), StructField(id,LongType,true), StructField(is_author_premium_visible,BooleanType,true), StructField(kudos_count,LongType,true), StructField(parent_id,LongType,true), StructField(reference_id,LongType,true), StructField(report_count,LongType,true)),true),true), StructField(creation_datetime,TimestampType,true), StructField(display_content,StringType,true), StructField(html_markup,StringType,true), StructField(id,LongType,true), StructField(is_author_premium_visible,BooleanType,true), StructField(kudos_count,LongType,true), StructField(parent_id,LongType,true), StructField(reference_id,LongType,true), StructField(report_count,LongType,true))),List(),None,Map(maxFilesPerTrigger -> 1, path -> hdfs://namenode:9000/dumpert/reaguursels/),None), FileSource[hdfs://namenode:9000/dumpert/reaguursels/], [approved#2429, article_id#2430L, article_link#2431, article_title#2432, author_is_newbie#2433, author_username#2434, banned#2435, child_comments#2436, creation_datetime#2437, display_content#2438, html_markup#2439, id#2440L, is_author_premium_visible#2441, kudos_count#2442L, parent_id#2443L, reference_id#2444L, report_count#2445L]
-
-
-import spark.implicits._
-
-
-fileStream = spark.readStream \
-                .format("")
-
- val file = spark.readStream.schema(schemaforfile).csv("C:\\SparkScala\\fakefriends.csv")
-
- file.writeStream.format("parquet").start("C:\\Users\\roswal01\\Desktop\\streamed")
-
- spark.stop()
-
-val file = spark.readStream.schema(schemaforfile).csv("C:\\SparkScala\\fakefriends.csv")
-
-val query = file.writeStream.format("parquet")
-    .option("checkpointLocation", "path/to/HDFS/dir")
-    .start("C:\\Users\\roswal01\\Desktop\\streamed")
-
-query.awaitTermination()
-
-df = spark.readStream \
-    .format("rate") \
-    .option("rowsPerSecond", 1) \
-    .load()
-
-# Write the streaming DataFrame to a table
-df.writeStream \
-    .option("checkpointLocation", "path/to/checkpoint/dir") \
-    .toTable("myTable")
-
-# Check the table result
-spark.read.table("myTable").show()
-
-# Transform the source dataset and write to a new table
-spark.readStream \
-    .table("myTable") \
-    .select("value") \
-    .writeStream \
-    .option("checkpointLocation", "path/to/checkpoint/dir") \
-    .format("parquet") \
-    .toTable("newTable")
-
-# Check the new table result
-spark.read.table("newTable").show()
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-
-
-
-
-
-Batch processing
-
-
-Loading 5.4 gb of comments into a dataframe.
-
-
-
-Had to set driver memory to 15g or it would time out.
-(NB: It’s best practice to minimize the amount of collect operations if possible or use a smaller subset of the data to collect during data exploration. From <https://key2consulting.com/boost-query-performance-databricks-spark/> )
-
-
-
-
-
-
-After caching:
-
-
-Comment count before caching:
-
-(Ignore the 15.) 23 min execution time without caching
-
-Comment count after caching:
-
-
-
-Also after caching:
-
-
-
-
-
-
+Work in progress
