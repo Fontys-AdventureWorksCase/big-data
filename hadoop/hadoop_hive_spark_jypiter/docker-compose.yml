@@ -8,6 +8,19 @@ volumes:
 
 services:
 
+  zeppelin:
+    image: apache/zeppelin:0.9.0
+    container_name: zeppelin
+    user: root
+    ports:
+      - "8889:8080"
+    volumes:
+      - ./notebooks:/opt/zeppelin/notebook
+    environment:
+      - "MASTER=spark://spark-master:7077"
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - "SPARK_HOME=/zeppelin/spark"
+
   jupyterlab:
     image: andreper/jupyterlab:3.0.0-spark-3.0.0
     container_name: jupyterlab
@@ -15,7 +28,7 @@ services:
       - 8888:8888
       - 4040:4040
     volumes:
-      - ./jupyter_scripts:/opt/workspace
+      - ./notebooks:/opt/workspace
 
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
