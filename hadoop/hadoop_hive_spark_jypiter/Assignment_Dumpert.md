@@ -64,7 +64,10 @@ if possible or use a smaller subset of the data to collect during data explorati
 
 ## Optimizations
 
-- Use caching
+### Use caching
+Caching will provide significant performance improvement while running several queries on the same dataframe. \
+From <https://key2consulting.com/boost-query-performance-databricks-spark/> 
+
   With: \
   ![image](https://user-images.githubusercontent.com/4932561/121825162-219ac180-ccb1-11eb-96f8-a81470889a3b.png)
   
@@ -77,6 +80,16 @@ if possible or use a smaller subset of the data to collect during data explorati
   
   Without: \
   ![image](https://user-images.githubusercontent.com/4932561/121825190-3ecf9000-ccb1-11eb-821c-1323fb75297c.png)
+
+### Minimize actions
+I have tried to keep actions to a minimum. Actions are operations which take DataFrame(s) as input and output something else. With Spark, operations are added to the graph describing what Spark should eventually do. When an action is requested – e.g. display the contents of this Spark DataFrame – Spark looks at the processing graph and then optimizes the tasks which needs to be done. From <https://data.solita.fi/pyspark-execution-logic-code-optimization/> 
+
+### Partitioning optimization
+I have not customized partioning for this assignment. However, partioning is a crucial part of the optimization toolbox. 
+
+### Write interim data
+It’s good practice to write a few interim tables that will be used by several users or queries on a regular basis. \
+From <https://key2consulting.com/boost-query-performance-databricks-spark/> 
 
 
 # Jupyter notebook
