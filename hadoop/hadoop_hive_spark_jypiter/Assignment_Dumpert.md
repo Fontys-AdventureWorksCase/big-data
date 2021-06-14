@@ -53,14 +53,16 @@ Scroll down to find the jupyter notebook. (The most up-to-date version is availa
 
 ## Batch processing
 
-This is what the Spark WebUI shows when loading 5.4 gb of comments into a dataframe.
-
-![image](https://user-images.githubusercontent.com/4932561/121825075-c963bf80-ccb0-11eb-9b94-1d53d0fb4ebe.png)
-
 I had to set driver memory to 15GB or it would time out. (NB: It’s best practice to minimize the amount of collect operations 
 if possible or use a smaller subset of the data to collect during data exploration. From <https://key2consulting.com/boost-query-performance-databricks-spark/> )
 
 ![image](https://user-images.githubusercontent.com/4932561/121825077-d1bbfa80-ccb0-11eb-9934-9fb7169c02a9.png)
+
+This is what the Spark WebUI shows when loading 5.4 gb of comments into a dataframe.
+
+![image](https://user-images.githubusercontent.com/4932561/121825075-c963bf80-ccb0-11eb-9b94-1d53d0fb4ebe.png)
+
+![image](https://user-images.githubusercontent.com/4932561/121868042-d3151380-cd00-11eb-8f54-4b58f53ff4b7.png)
 
 ## Optimizations
 
