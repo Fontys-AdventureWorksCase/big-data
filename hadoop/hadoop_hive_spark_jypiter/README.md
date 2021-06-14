@@ -1,8 +1,3 @@
-Original: https://github.com/Marcel-Jan/docker-hadoop-spark
-
-
-
-
 # Hadoop, Hive, Spark and Jupyter
 
 ## Quick Start
@@ -28,3 +23,6 @@ Access the following ui ports in your browser:
 
 ## How to Spark-Jupyter example
 [Dumpert assignment](Assignment_Dumpert.md)
+
+
+Source: https://github.com/Marcel-Jan/docker-hadoop-spark
