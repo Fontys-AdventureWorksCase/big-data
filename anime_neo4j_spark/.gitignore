@@ -1,0 +1,3 @@
+!.gitignore
+notebooks/.git
+neo4j/data/
