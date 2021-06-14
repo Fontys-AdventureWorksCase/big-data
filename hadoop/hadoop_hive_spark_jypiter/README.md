@@ -15,8 +15,8 @@ To deploy the HDFS-Hive-Spark-Jupyter cluster, run:
 Access the following ui ports in your browser:
 
 * Zeppelin: <http://localhost:8889>
-* Jupyter: <http://localhost:8888>
-* Spark: <http://localhost:4040>, <http://localhost:8080>, <http://localhost:8081>
+* Jupyter: <http://localhost:8888>, <http://localhost:4040> (create a Spark session in Jupyter first)
+* Spark: <http://localhost:8080>, <http://localhost:8081>
 * Hadoop: <http://localhost:9870>
 * Neo4j: <http://localhost:7474> (TODO)
 * Other ports used (see docker-compose.yml)
