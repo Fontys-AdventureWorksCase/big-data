@@ -3,7 +3,7 @@
 Collection of notebooks to get started with Neo4j Connector for Apache Spark
 
 ```
-docker-compose up
+docker-compose up -d
 ```
 
 ## Zeppelin Notebook
