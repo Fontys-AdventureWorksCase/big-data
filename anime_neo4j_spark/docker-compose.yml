@@ -21,26 +21,15 @@ services:
       - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
       - NEO4JLABS_PLUGINS=["apoc","graph-data-science","n10s"]
     volumes:
+      - ./import:/import
       - ./neo4j/data:/data
-      - ./neo4j/import:/import
       - ./neo4j/conf:/conf
       - ./neo4j/logs:/logs
       - ./neo4j/plugins:/plugins
 
-  zeppelin:
-    image: apache/zeppelin:0.9.0
-    container_name: zeppelin
-    user: root
-    ports:
-      - "8889:8080"
-    volumes:
-      - ./notebooks:/opt/zeppelin/notebook
-    environment:
-      - "MASTER=spark://spark-master:7077"
-      - "SPARK_MASTER=spark://spark-master:7077"
-      - "SPARK_HOME=/zeppelin/spark"
-
   jupyterlab:
+    # user root to have access to import folder from Jupyter ui??
+    user: root
     image: andreper/jupyterlab:3.0.0-spark-3.0.0
     container_name: jupyterlab
     ports:
@@ -49,6 +38,7 @@ services:
     volumes:
       - ./notebooks:/opt/workspace
       - ./spark_jars:/extra_jars
+      - ./import:/import
 
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -123,7 +113,8 @@ services:
       - INIT_DAEMON_STEP=setup_spark
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     volumes:
-       - ./spark_jars:/extra_jars
+      - ./spark_jars:/extra_jars
+      - ./import:/import
 #      - ./spark_jars:/spark/jars
 
   spark-worker-1:
@@ -136,6 +127,8 @@ services:
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    volumes:
+      - ./import:/import
 
   hive-server:
     image: bde2020/hive:2.3.2-postgresql-metastore

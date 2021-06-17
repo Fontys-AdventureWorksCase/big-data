@@ -1,3 +1,4 @@
 !.gitignore
 notebooks/.git
 neo4j/data/
+neo4j/data_backup/
