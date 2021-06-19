@@ -37,6 +37,8 @@ RUN pip3 install cassandra-driver
 RUN pip3 install matplotlib
 RUN pip3 install numpy
 RUN pip3 install pandas
+RUN pip3 install cql_kernel
+RUN python3 -m cql_kernel.install dse
 
 COPY start-notebook.sh /opt/dse/
 
