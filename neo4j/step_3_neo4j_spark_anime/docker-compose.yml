@@ -26,7 +26,7 @@ services:
     networks:
       - host
     ports:
-      - 8080:8080
+      - 8887:8080
     environment: 
       - ZEPPELIN_ADDR=0.0.0.0
     volumes:

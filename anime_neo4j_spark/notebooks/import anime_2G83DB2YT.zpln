@@ -1,0 +1,225 @@
+{
+  "paragraphs": [
+    {
+      "title": "Create Spark Session",
+      "text": "%spark.pyspark\r\n\r\nfrom pyspark.sql import SparkSession\r\nfrom pyspark.sql import SQLContext\r\nimport datetime\r\n\r\nstartTime \u003d datetime.datetime.now()\r\n\r\nspark \u003d SparkSession \\\r\n    .builder\\\r\n    .master(\"local[1]\") \\\r\n    .appName(\"csv importer\") \\\r\n    .config(\"neo4j.url\", \"bolt://neo4j:7687\")\\\r\n    .config(\"neo4j.authentication.type\", \"basic\")\\\r\n    .config(\"neo4j.authentication.basic.username\", \"neo4j\")\\\r\n    .config(\"neo4j.authentication.basic.password\", \"password\")\\\r\n    .getOrCreate()\r\n    \r\nprint(datetime.datetime.now()-startTime)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-15 22:27:29.001",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "org.apache.zeppelin.interpreter.InterpreterException: java.io.IOException: Fail to launch interpreter process:\n/opt/zeppelin/bin/interpreter.sh: line 294: /zeppelin/spark/bin/spark-submit: No such file or directory\n\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.open(RemoteInterpreter.java:129)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getFormType(RemoteInterpreter.java:271)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:444)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:72)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:182)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\nCaused by: java.io.IOException: Fail to launch interpreter process:\n/opt/zeppelin/bin/interpreter.sh: line 294: /zeppelin/spark/bin/spark-submit: No such file or directory\n\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterManagedProcess.start(RemoteInterpreterManagedProcess.java:126)\n\tat org.apache.zeppelin.interpreter.ManagedInterpreterGroup.getOrCreateInterpreterProcess(ManagedInterpreterGroup.java:68)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getOrCreateInterpreterProcess(RemoteInterpreter.java:104)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.internal_create(RemoteInterpreter.java:154)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.open(RemoteInterpreter.java:126)\n\t... 13 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623667485722_1309088211",
+      "id": "20210605-191420_1635142668",
+      "dateCreated": "2021-06-14 10:44:45.722",
+      "dateStarted": "2021-06-15 22:27:29.015",
+      "dateFinished": "2021-06-15 22:27:29.215",
+      "status": "ERROR"
+    },
+    {
+      "text": "%spark.pyspark\n\nstartTime \u003d datetime.datetime.now()\n\ndata_file \u003d \u0027/import/anime/users_cleaned.csv\u0027 \n\ndf \u003d spark.read.csv(data_file)\ndf.printSchema()\n\nprint(datetime.datetime.now()-startTime)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-15 21:56:40.991",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623667485723_401613928",
+      "id": "20210606-090040_485292066",
+      "dateCreated": "2021-06-14 10:44:45.723",
+      "status": "READY"
+    },
+    {
+      "title": "Import Users",
+      "text": "%spark.pyspark\r\n\r\ndata_file \u003d \u0027/import/anime/users_cleaned.csv\u0027 \r\n\r\ndf \u003d spark.read.csv(data_file, header\u003dTrue, sep\u003d\",\").cache() \r\nprint(\u0027Total Records \u003d {}\u0027.format(df.count()))\r\ndf.show(1, vertical\u003dTrue)\r\n\r\ndf.write.format(\"org.neo4j.spark.DataSource\") \\\r\n    .option(\"node.keys\", \"username\")\\\r\n    .option(\"schema.optimization.type\", \"INDEX\")\\\r\n    .mode(\"Overwrite\")\\\r\n    .option(\"labels\", \":User\") \\\r\n    .save()",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-15 21:55:49.343",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 6.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Total Records \u003d 108712\n-RECORD 0---------------------------------------\n username                 | karthiga            \n user_id                  | 2255153             \n user_watching            | 3                   \n user_completed           | 49                  \n user_onhold              | 1                   \n user_dropped             | 0                   \n user_plantowatch         | 0                   \n user_days_spent_watching | 55.09166666666667   \n gender                   | Female              \n location                 | Chennai, India      \n birth_date               | 1990-04-29 00:00:00 \n access_rank              | null                \n join_date                | 2013-03-03 00:00:00 \n last_online              | 2014-02-04 01:32:00 \n stats_mean_score         | 7.43                \n stats_rewatched          | 0.0                 \n stats_episodes           | 3391                \nonly showing top 1 row\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623667485723_390268488",
+      "id": "20210605-191430_1968750315",
+      "dateCreated": "2021-06-14 10:44:45.723",
+      "status": "READY"
+    },
+    {
+      "title": "Import anime",
+      "text": "%spark.pyspark\n\ndata_file \u003d \u0027/import/anime/anime_cleaned.csv\u0027 \n\ndf \u003d spark.read.csv(data_file, header\u003dTrue, sep\u003d\",\").cache() \nprint(\u0027Total Records \u003d {}\u0027.format(df.count()))\ndf.show(1, vertical\u003dTrue)\n\ndf.write.format(\"org.neo4j.spark.DataSource\") \\\n    .option(\"node.keys\", \"anime_id\")\\\n    .option(\"schema.optimization.type\", \"INDEX\")\\\n    .mode(\"Overwrite\")\\\n    .option(\"labels\", \":Anime\") \\\n    .save()",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-15 21:55:55.011",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 6.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Total Records \u003d 6668\n-RECORD 0-------------------------------\n anime_id        | 11013                \n title           | Inu x Boku SS        \n title_english   | Inu X Boku Secret... \n title_japanese  | 妖狐×僕SS            \n title_synonyms  | Youko x Boku SS      \n image_url       | https://myanimeli... \n type            | TV                   \n source          | Manga                \n episodes        | 12                   \n status          | Finished Airing      \n airing          | False                \n aired_string    | Jan 13, 2012 to M... \n aired           | {\u0027from\u0027: \u00272012-01... \n duration        | 24 min. per ep.      \n rating          | PG-13 - Teens 13 ... \n score           | 7.63                 \n scored_by       | 139250               \n rank            | 1274.0               \n popularity      | 231                  \n members         | 283882               \n favorites       | 2809                 \n background      | Inu x Boku SS was... \n premiered       | Winter 2012          \n broadcast       | Fridays at Unknown   \n related         | {\u0027Adaptation\u0027: [{... \n producer        | Aniplex, Square E... \n licensor        | Sentai Filmworks     \n studio          | David Production     \n genre           | Comedy, Supernatu... \n opening_theme   | \"[\u0027\"\"Nirvana\"\" by... \n ending_theme    | \"[\u0027#1: \"\"Nirvana\"... \n duration_min    |  11-12)\u0027             \n aired_from_year |  \u0027#2: \"\"Rakuen no... \nonly showing top 1 row\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623667485723_1849946868",
+      "id": "20210605-211744_18160358",
+      "dateCreated": "2021-06-14 10:44:45.723",
+      "status": "READY"
+    },
+    {
+      "title": "Import relationships",
+      "text": "%spark.pyspark\n\ndata_file \u003d \u0027/import/anime/animelists_cleaned.csv\u0027 \n\ndf \u003d spark.read.csv(data_file, header\u003dTrue, sep\u003d\",\").cache() \nprint(\u0027Total Records \u003d {}\u0027.format(df.count()))\ndf.show(2)\n\ndf.write.format(\"org.neo4j.spark.DataSource\") \\\n    .mode(\"Overwrite\")\\\n    .option(\"batch.size\", 256)\\\n    .option(\"relationship.properties\", \"my_watched_episodes,my_start_date,my_finish_date,my_score,my_status,my_rewatching,my_rewatching_ep,my_last_updated,my_tags\")\\\n    .option(\"relationship\", \"WATCHED\") \\\n    .option(\"relationship.save.strategy\", \"keys\") \\\n    .option(\"relationship.source.save.mode\", \"Match\")\\\n    .option(\"relationship.source.labels\", \":User\")\\\n    .option(\"relationship.source.node.keys\", \"username\")\\\n    .option(\"relationship.target.save.mode\", \"Match\")\\\n    .option(\"relationship.target.labels\", \":Anime\")\\\n    .option(\"relationship.target.node.keys\", \"anime_id\")\\\n    .save()",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-15 21:56:00.474",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Total Records \u003d 31384994\n+--------+--------+-------------------+-------------+--------------+--------+---------+-------------+----------------+-------------------+-------+\n|username|anime_id|my_watched_episodes|my_start_date|my_finish_date|my_score|my_status|my_rewatching|my_rewatching_ep|    my_last_updated|my_tags|\n+--------+--------+-------------------+-------------+--------------+--------+---------+-------------+----------------+-------------------+-------+\n|karthiga|      21|                586|   0000-00-00|    0000-00-00|       9|        1|         null|               0|2013-03-03 10:52:53|   null|\n|karthiga|      59|                 26|   0000-00-00|    0000-00-00|       7|        2|         null|               0|2013-03-10 13:54:51|   null|\n+--------+--------+-------------------+-------------+--------------+--------+---------+-------------+----------------+-------------------+-------+\nonly showing top 2 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623667485723_708245503",
+      "id": "20210605-212531_277217955",
+      "dateCreated": "2021-06-14 10:44:45.723",
+      "status": "READY"
+    }
+  ],
+  "name": "import anime",
+  "id": "2G83DB2YT",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {
+    "isRunning": true
+  }
+}
