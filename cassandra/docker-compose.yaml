@@ -1,80 +1,74 @@
-version: '3.9'
-
+version: '3'
 services:
-
-    web:
-        image: ipushc/cassandra-web
-        networks:
-            - backend
-        ports:
-            - 9000:9000
-        environment: 
-            - HOST_PORT=:9000
-            - CASSANDRA_HOST=backend-1
-            - CASSANDRA_PORT=9042
-            - CASSANDRA_USERNAME=
-            - CASSANDRA_PASSWORD=
-
-    backend-1:
-        image: cassandra:4.0
-        networks:
-            - backend
-        ports:
-            - 9044:9042
-        mem_limit: 2G
-        environment:
-            - HEAP_NEWSIZE=128M
-            - MAX_HEAP_SIZE=1024M
-            - CASSANDRA_SEEDS=backend-1
-            - CASSANDRA_CLUSTER_NAME=c4-4.0-cluster
-
-    backend-2:
-        image: cassandra:4.0
-        networks:
-            - backend
-        mem_limit: 2G
-        depends_on:
-            - backend-1
-        environment:
-            - HEAP_NEWSIZE=128M
-            - MAX_HEAP_SIZE=1024M
-            - CASSANDRA_SEEDS=backend-1
-            - CASSANDRA_CLUSTER_NAME=c4-4.0-cluster
-
-    backend-3:
-        image: cassandra:4.0
-        networks:
-            - backend
-        mem_limit: 2G
-        depends_on:
-            - backend-2
-        environment:
-            - HEAP_NEWSIZE=128M
-            - MAX_HEAP_SIZE=1024M
-            - CASSANDRA_SEEDS=backend-1
-            - CASSANDRA_CLUSTER_NAME=c4-4.0-cluster
-
-    stargate:
-        image: stargateio/stargate-4_0:v1.0.26
-        depends_on: 
-            - backend-1
-        networks:
-            - backend
-        ports:
-            - 9045:9042
-            - 8080:8080
-            - 8081:8081
-            - 8082:8082
-            - 8084:8084
-        mem_limit: 2G
-        environment:
-            - JAVA_OPTS="-Xmx2G"
-            - CLUSTER_NAME=c4-4.0-cluster
-            - CLUSTER_VERSION=4.0s
-            - SEED=backend-1
-            - RACK_NAME=rack1
-            - DATACENTER_NAME=dc1
-            - ENABLE_AUTH=true
-
-networks:
-    backend:
+  dse: # DataStax Enterprise (Apache Cassandra + Apache Spark + much more)
+    image: datastax/dse-server:6.8.1
+    command: [ -s -k ] # Run with Search and Analytics capabilities enabled
+    environment:
+      DS_LICENSE: accept # Accept licence on start
+      JVM_EXTRA_OPTS: -Xmx2g -Xms2g
+      SPARK_SCALA_VERSION: 2.12
+      CLUSTER_NAME: Fontys
+      OPSCENTER_IP: opscenter
+    cap_add:
+      - IPC_LOCK # Allow DSE to lock memory with mlock
+    ulimits:
+      memlock: -1 # Lock memory
+    ports:
+      - "4040:4040"
+      - "7080:7080"
+      - "7081:7081"
+      - "8983:8983"
+      - "9042:9042"
+      - "9077:9077"
+      - 8080:8080
+      - "10000:10000"
+    links:
+      - opscenter
+  node:
+    image: datastax/dse-server:6.8.1
+    command: [ -s -k ] # Run with Search and Analytics capabilities enabled
+    environment:
+      DS_LICENSE: accept # Accept licence on start
+      JVM_EXTRA_OPTS: -Xmx2g -Xms2g
+      SEEDS: dse
+      CLUSTER_NAME: Fontys
+      OPSCENTER_IP: opscenter
+      SPARK_SCALA_VERSION: 2.12
+    cap_add:
+      - IPC_LOCK # Allow DSE to lock memory with mlock
+    ulimits:
+      memlock: -1 # Lock memory
+    links:
+      - dse
+      - opscenter
+  jupyter: # Jupyter Notebook
+    build: ./customdse
+    environment:
+      JUPYTER_ENABLE_LAB: yes
+    volumes:
+      - ./jupyter:/opt/dse/jupyter
+    ports:
+      - "8888:8888" # Exposes port to be available externally
+    environment:
+      PYSPARK_SUBMIT_ARGS: '--packages com.datastax.spark:spark-cassandra-connector_2.12:2.5.2 --conf spark.cassandra.connection.host=dse pyspark-shell'
+    links:
+      - dse
+  studio:  # Web interface for the Apache Cassandra and DataStax Enterprise
+    image: datastax/dse-studio:6.8.1
+    volumes:
+      - ./dse-studio/connections:/var/lib/datastax-studio/connections/admin
+      - ./dse-studio/notebooks:/opt/datastax-studio/examples/notebooks
+    ports:
+      - "9091:9091" # Exposes port to be available externally
+    environment:
+      DS_LICENSE: accept # Accept licence on start
+      CLUSTER_NAME: Fontys
+    links:
+      - dse
+  opscenter:
+    image: datastax/dse-opscenter:6.8.0
+    ports:
+      - 8889:8888
+    environment:
+      DS_LICENSE: accept
+      CLUSTER_NAME: Fontys
