@@ -14,7 +14,7 @@ services:
     ulimits:
       memlock: -1 # Lock memory
     ports:
-      - "4040:4040"
+#      - "4040:4040"
       - "7080:7080"
       - "7081:7081"
       - "8983:8983"
@@ -48,6 +48,7 @@ services:
     volumes:
       - ./jupyter:/opt/dse/jupyter:rw
     ports:
+      - 4040:4040
       - "8888:8888" # Exposes port to be available externally
     environment:
       PYSPARK_SUBMIT_ARGS: '--packages com.datastax.spark:spark-cassandra-connector_2.12:2.5.2 --conf spark.cassandra.connection.host=dse pyspark-shell'
