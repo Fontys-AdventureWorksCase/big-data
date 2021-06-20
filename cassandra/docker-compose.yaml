@@ -5,7 +5,7 @@ services:
     command: [ -s -k ] # Run with Search and Analytics capabilities enabled
     environment:
       DS_LICENSE: accept # Accept licence on start
-      JVM_EXTRA_OPTS: -Xmx2g -Xms2g
+      JVM_EXTRA_OPTS: -Xmx6g -Xms6g
       SPARK_SCALA_VERSION: 2.12
       CLUSTER_NAME: Fontys
       OPSCENTER_IP: opscenter
@@ -29,7 +29,7 @@ services:
     command: [ -s -k ] # Run with Search and Analytics capabilities enabled
     environment:
       DS_LICENSE: accept # Accept licence on start
-      JVM_EXTRA_OPTS: -Xmx2g -Xms2g
+      JVM_EXTRA_OPTS: -Xmx6g -Xms6g
       SEEDS: dse
       CLUSTER_NAME: Fontys
       OPSCENTER_IP: opscenter
