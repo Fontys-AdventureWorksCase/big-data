@@ -46,7 +46,7 @@ services:
     environment:
       JUPYTER_ENABLE_LAB: yes
     volumes:
-      - ./jupyter:/opt/dse/jupyter
+      - ./jupyter:/opt/dse/jupyter:rw
     ports:
       - "8888:8888" # Exposes port to be available externally
     environment:
